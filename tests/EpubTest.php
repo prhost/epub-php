@@ -8,6 +8,5 @@ class EpubTest extends TestCase
 {
     public function testInstanceEpub(): void
     {
-
     }
 }
