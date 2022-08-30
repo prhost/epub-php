@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prhost\Epub3;
 
 use Prhost\Epub3\Elements\Navegation;
-use Symfony\Component\Filesystem\Filesystem;
 
 class Epub
 {
