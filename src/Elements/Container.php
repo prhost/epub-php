@@ -18,16 +18,22 @@ class Container
 
     public function generateXml(string $basePath): string
     {
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><container/>');
+        $document = new \DOMDocument('1.0', 'UTF-8');
 
-        $xml->addAttribute('version', '1.0');
-        $xml->addAttribute('xmlns', 'urn:oasis:names:tc:opendocument:xmlns:container');
+        $container = $document->createElement('container');
+        $document->appendChild($container);
 
-        $rootfiles = $xml->addChild('rootfiles');
-        $rootfile = $rootfiles->addChild('rootfile');
-        $rootfile->addAttribute('full-path', rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $this->package->getFilename());
-        $rootfile->addAttribute('media-type', "application/oebps-package+xml");
+        $container->setAttribute('version', '1.0');
+        $container->setAttribute('xmlns', 'urn:oasis:names:tc:opendocument:xmlns:container');
 
-        return $xml->asXML();
+        $rootfiles = $document->createElement('rootfiles');
+        $container->appendChild($rootfiles);
+        $rootfile = $document->createElement('rootfile');
+        $rootfiles->appendChild($rootfile);
+
+        $rootfile->setAttribute('full-path', rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $this->package->getFilename());
+        $rootfile->setAttribute('media-type', "application/oebps-package+xml");
+
+        return $document->saveXML();
     }
 }

@@ -8,7 +8,9 @@ use Prhost\Epub3\Elements\Files\Css;
 use Prhost\Epub3\Elements\Files\File;
 use Prhost\Epub3\Elements\Files\Image;
 use Prhost\Epub3\Elements\Files\Package;
+use Prhost\Epub3\Elements\ManifestItem;
 use Prhost\Epub3\Elements\Navegation;
+use Prhost\Epub3\Elements\PackageMaker;
 use Prhost\Epub3\Epub;
 use Prhost\Epub3\FileManager;
 
@@ -87,5 +89,19 @@ class EpubTest extends TestCaseEpub
 
         $filePath = FileManager::getInstance()->saveFile('cover.xhtml', $xhtml, 'EPUB');
         $this->assertStringEqualsFile($filePath, $xhtml);
+    }
+
+    public function testPackage(): void
+    {
+        $packageMaker = new PackageMaker(new Epub('test Title'));
+
+        $manifestItem = ManifestItem::fromFile(new Image($this->getSamplePath('covers/sample-cover.jpg'), 'EPUB/images'), 'EPUB');
+
+        $packageMaker->createManifestItem('id-123', 'EPUB/css/cover.css', 'text/css');
+
+        $packageMaker->appendManifestItem($manifestItem);
+
+        $xml = $packageMaker->generateXml();
+        $this->assertIsString($xml);
     }
 }
