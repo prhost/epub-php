@@ -21,12 +21,14 @@ class Menu
     public function createSubMenu(string $filePath, string $title): Menu
     {
         $this->appendSubMenu($submenu = new Menu($filePath, $title));
+
         return $submenu;
     }
 
     public function appendSubMenu(Menu $submenu): self
     {
         $this->submenus[] = $submenu;
+
         return $this;
     }
 

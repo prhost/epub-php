@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Prhost\Epub3\Elements;
@@ -26,6 +27,7 @@ class Cover
     public function appendCss(Css $css): self
     {
         $this->cssFiles[] = $css;
+
         return $this;
     }
 

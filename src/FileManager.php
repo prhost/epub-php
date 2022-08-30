@@ -77,6 +77,7 @@ class FileManager
     public function relativePath(File $file, string $relativePath): string
     {
         $path = rtrim(self::getFileystem()->makePathRelative($file->getPath(), $this->realPath(null, $relativePath)), DIRECTORY_SEPARATOR);
+
         return $path . DIRECTORY_SEPARATOR . $file->getFilename();
     }
 

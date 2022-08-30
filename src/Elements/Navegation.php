@@ -39,12 +39,14 @@ class Navegation
     public function createMainMenu(string $filePath, string $title): Menu
     {
         $this->appendMainMenu($menu = new Menu($filePath, $title));
+
         return $menu;
     }
 
     public function appendMainMenu(Menu $menu): self
     {
         $this->menus[] = &$menu;
+
         return $this;
     }
 
