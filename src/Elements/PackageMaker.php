@@ -50,36 +50,42 @@ class PackageMaker
     public function createManifestItem(string $id, string $href, string $mediaType, array $attributes = []): ManifestItem
     {
         $this->appendManifestItem($item = new ManifestItem($id, $href, $mediaType, $attributes));
+
         return $item;
     }
 
     public function appendManifestItem(ManifestItem $item): self
     {
         $this->manifestItems[] = $item;
+
         return $this;
     }
 
     public function createMetadataItem(string $tagName, string $value = null, array $attributes = []): MetadataItem
     {
         $this->appendMetadataItem($item = new MetadataItem($tagName, $value, $attributes));
+
         return $item;
     }
 
     public function appendMetadataItem(MetadataItem $item): self
     {
         $this->metadataItems[] = $item;
+
         return $this;
     }
 
     public function createSpineItemRef(string $idref, array $attributes = []): SpineItemRef
     {
         $this->appendSpineItemRef($item = new SpineItemRef($idref, $attributes));
+
         return $item;
     }
 
     public function appendSpineItemRef(SpineItemRef $item): self
     {
         $this->spineItems[] = $item;
+
         return $this;
     }
 

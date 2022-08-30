@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prhost\Epub3\Elements;
 
 use Prhost\Epub3\Elements\Files\Package;
-use SimpleXMLElement;
 
 class Container
 {
