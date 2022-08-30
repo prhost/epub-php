@@ -4,26 +4,38 @@ declare(strict_types=1);
 
 namespace Prhost\Epub3;
 
+use Prhost\Epub3\Elements\Files\File;
+use Prhost\Epub3\Traits\Singleton;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileManager
 {
+    use Singleton;
+
     /**
      * @var string
      */
     protected $savePath;
 
-    protected string $rootDirName;
+    /**
+     * @var string
+     */
+    protected $rootDirName;
 
     /**
      * @var Filesystem
      */
     protected $filesystem;
 
-    public function __construct(string $rootDirName = null)
+    public function getRootDirName(): string
     {
-        $this->rootDirName = $rootDirName ?: Uuid::uuid4()->toString();
+        return $this->rootDirName = $this->rootDirName ?: Uuid::uuid4()->toString();
+    }
+
+    public function setRootDirName(string $rootDirName): void
+    {
+        $this->rootDirName = $rootDirName;
     }
 
     /**
@@ -34,16 +46,38 @@ class FileManager
      */
     public function saveFile(string $fileName, string $content = null, string $subPath = null): string
     {
-        $pathFile = self::path($subPath ? ($subPath . DIRECTORY_SEPARATOR . $fileName) : $fileName);
+        $pathFile = self::realPath($fileName, $subPath);
         self::getFileystem()->mkdir(dirname($pathFile));
         self::getFileystem()->appendToFile($pathFile, $content);
 
         return $pathFile;
     }
 
-    public function path(string $file = null): string
+    public function copyToEpub(string $filePath, string $epubSubPath = null): string
     {
-        return $file ? ($this->getSavePath() . DIRECTORY_SEPARATOR . $this->rootDirName . DIRECTORY_SEPARATOR . $file) : self::getSavePath();
+        $fileName = basename($filePath);
+        $targetFile = $this->realPath($fileName, $epubSubPath);
+        self::getFileystem()->mkdir(dirname($targetFile));
+        self::getFileystem()->copy($filePath, $targetFile);
+
+        return $targetFile;
+    }
+
+    public function realPath(string $file = null, string $epubSubPath = null): string
+    {
+        if ($epubSubPath) {
+            $file = trim($epubSubPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
+        }
+
+        $epubPath = $this->getSavePath() . DIRECTORY_SEPARATOR . $this->getRootDirName();
+
+        return $file ? ($epubPath . DIRECTORY_SEPARATOR . $file) : $epubPath;
+    }
+
+    public function relativePath(File $file, string $relativePath): string
+    {
+        $path = rtrim(self::getFileystem()->makePathRelative($file->getPath(), $this->realPath(null, $relativePath)), DIRECTORY_SEPARATOR);
+        return $path . DIRECTORY_SEPARATOR . $file->getFilename();
     }
 
     protected function getFileystem(): Filesystem
@@ -67,5 +101,10 @@ class FileManager
         }
 
         return rtrim($this->savePath, DIRECTORY_SEPARATOR);
+    }
+
+    public function setTempSavePath(): void
+    {
+        $this->setSavePath(sys_get_temp_dir());
     }
 }

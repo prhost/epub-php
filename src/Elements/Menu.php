@@ -17,12 +17,16 @@ class Menu
         $this->title = $title;
     }
 
-    public function appendSubMenu(string $filePath, string $title): Menu
+    public function createSubMenu(string $filePath, string $title): Menu
     {
-        $submenu = new Menu($filePath, $title);
-        $this->submenus[] = &$submenu;
-
+        $this->appendSubMenu($submenu = new Menu($filePath, $title));
         return $submenu;
+    }
+
+    public function appendSubMenu(Menu $submenu): self
+    {
+        $this->submenus[] = $submenu;
+        return $this;
     }
 
     /**

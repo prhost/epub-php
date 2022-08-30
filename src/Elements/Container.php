@@ -1,13 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Prhost\Epub3\Elements;
 
+use Prhost\Epub3\Elements\Files\Package;
 use SimpleXMLElement;
 
 class Container
 {
-    public static function generateXml(): string
+    protected Package $package;
+
+    public function __construct(Package $package)
+    {
+        $this->package = $package;
+    }
+
+    public function generateXml(string $basePath): string
     {
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><container/>');
 
@@ -16,7 +25,7 @@ class Container
 
         $rootfiles = $xml->addChild('rootfiles');
         $rootfile = $rootfiles->addChild('rootfile');
-        $rootfile->addAttribute('full-path', "EPUB/package.opf");
+        $rootfile->addAttribute('full-path', rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $this->package->getFilename());
         $rootfile->addAttribute('media-type', "application/oebps-package+xml");
 
         return $xml->asXML();

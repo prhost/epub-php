@@ -6,10 +6,14 @@ namespace Prhost\Epub3\Elements;
 
 use DOMDocument;
 use DOMElement;
+use Prhost\Epub3\Elements\Files\Css;
 use Prhost\Epub3\Epub;
+use Prhost\Epub3\Traits\CssTrait;
 
 class Navegation
 {
+    use CssTrait;
+
     protected Epub $epub;
 
     /**
@@ -32,12 +36,16 @@ class Navegation
         $this->cssFiles[] = $css;
     }
 
-    public function appendMainMenu(string $filePath, string $title): Menu
+    public function createMainMenu(string $filePath, string $title): Menu
     {
-        $menu = new Menu($filePath, $title);
-        $this->menus[] = &$menu;
-
+        $this->appendMainMenu($menu = new Menu($filePath, $title));
         return $menu;
+    }
+
+    public function appendMainMenu(Menu $menu): self
+    {
+        $this->menus[] = &$menu;
+        return $this;
     }
 
     public function generateXhtml(): string
@@ -55,11 +63,7 @@ class Navegation
         $head->appendChild($document->createElement('title', $this->epub->getTitle()));
 
         foreach ($this->cssFiles as $cssFile) {
-            $link = $document->createElement('link');
-            $link->setAttribute('rel', 'stylesheet');
-            $link->setAttribute('type', 'text/css');
-            $link->setAttribute('href', $cssFile->get());
-            $head->appendChild($link);
+            $head->appendChild($this->makeLink($cssFile, $document));
         }
 
         $body = $document->createElement('body');
@@ -78,9 +82,7 @@ class Navegation
             $this->makeNavsOl($this->menus, $ol, $document);
         }
 
-        $xml = $document->saveXML();
-
-        return $xml;
+        return $document->saveXML();
     }
 
     /**
