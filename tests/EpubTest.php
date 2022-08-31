@@ -41,10 +41,10 @@ class EpubTest extends TestCaseEpub
 
     public function testContainerGenerate(): void
     {
-        $container = new Container(new Package($this->getSamplePath('epub-basic-v3plus2/EPUB/package.opf'), 'EPUB'));
+        $container = new Container(new Package($this->getFilePath('epub-basic-v3plus2/EPUB/package.opf'), 'EPUB'));
         $xml = $container->generateXml('EPUB');
 
-        $this->assertXmlStringEqualsXmlFile($this->getSamplePath('epub-basic-v3plus2/META-INF/container.xml'), $xml);
+        $this->assertXmlStringEqualsXmlFile($this->getFilePath('epub-basic-v3plus2/META-INF/container.xml'), $xml);
     }
 
     public function testNavegation(): void
@@ -71,7 +71,7 @@ class EpubTest extends TestCaseEpub
 
     public function testFile(): void
     {
-        $imagePath = $this->getSamplePath('covers/sample-cover.jpg');
+        $imagePath = $this->getFilePath('covers/sample-cover.jpg');
         $image = new Image($imagePath, 'EPUB/images');
         $this->assertInstanceOf(File::class, $image);
         $this->assertInstanceOf(Image::class, $image);
@@ -81,8 +81,8 @@ class EpubTest extends TestCaseEpub
 
     public function testCover(): void
     {
-        $cover = new Cover(new Image($this->getSamplePath('covers/sample-cover.jpg'), 'EPUB/images'), new Epub('Test Title'));
-        $cover->appendCss(new Css($this->getSamplePath('epub-basic-v3plus2/EPUB/css/cover.css'), 'EPUB/css'));
+        $cover = new Cover(new Image($this->getFilePath('covers/sample-cover.jpg'), 'EPUB/images'), new Epub('Test Title'));
+        $cover->appendCss(new Css($this->getFilePath('epub-basic-v3plus2/EPUB/css/cover.css'), 'EPUB/css'));
 
         $xhtml = $cover->generateXhtml('EPUB/xhtml');
         $this->assertXmlStringEqualsXmlString($this->coverXhtmlContent, $xhtml);
@@ -95,7 +95,7 @@ class EpubTest extends TestCaseEpub
     {
         $packageMaker = new PackageMaker(new Epub('test Title'));
 
-        $manifestItem = ManifestItem::fromFile(new Image($this->getSamplePath('covers/sample-cover.jpg'), 'EPUB/images'), 'EPUB');
+        $manifestItem = ManifestItem::fromFile(new Image($this->getFilePath('covers/sample-cover.jpg'), 'EPUB/images'), 'EPUB');
 
         $packageMaker->createManifestItem('id-123', 'EPUB/css/cover.css', 'text/css');
 

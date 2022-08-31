@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 class TestCaseEpub extends TestCase
 {
-    public function getSamplePath(string $filePath): string
+    public function getFilePath(string $filePath): string
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . $filePath;
+        return __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $filePath;
     }
 }
