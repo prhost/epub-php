@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
-use Prhost\Epub3\Files\Chapter;
-use Prhost\Epub3\Files\File;
-use Prhost\Epub3\Helpers\Str;
-use Prhost\Epub3\Traits\AssetTrait;
+use Prhost\Epub\Files\Chapter;
+use Prhost\Epub\Files\File;
+use Prhost\Epub\Helpers\Str;
+use Prhost\Epub\Traits\AssetTrait;
 
 class ChapterMaker extends MakerAbstract
 {

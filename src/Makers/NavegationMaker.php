@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
 use DOMDocument;
 use DOMElement;
-use Prhost\Epub3\Elements\Menu;
-use Prhost\Epub3\Files\Nav;
-use Prhost\Epub3\Traits\AssetTrait;
+use Prhost\Epub\Elements\Menu;
+use Prhost\Epub\Files\Nav;
+use Prhost\Epub\Traits\AssetTrait;
 
 class NavegationMaker extends MakerAbstract
 {

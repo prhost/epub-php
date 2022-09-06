@@ -1,6 +1,6 @@
 <?php
 
-namespace Prhost\Epub3\Traits;
+namespace Prhost\Epub\Traits;
 
 trait Singleton
 {

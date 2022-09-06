@@ -1,11 +1,11 @@
 <?php
 
-namespace Prhost\Epub3\Tests;
+namespace Prhost\Epub\Tests;
 
-use Prhost\Epub3\Elements\Menu;
-use Prhost\Epub3\Epub;
-use Prhost\Epub3\FileManager;
-use Prhost\Epub3\Files\Css;
+use Prhost\Epub\Elements\Menu;
+use Prhost\Epub\Epub;
+use Prhost\Epub\FileManager;
+use Prhost\Epub\Files\Css;
 
 class EpubTest extends TestCaseEpub
 {

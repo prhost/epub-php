@@ -1,11 +1,11 @@
 {
-  "name": "prhost/epub3-php",
-  "description": "Epub v3",
+  "name": "prhost/epub-php",
+  "description": "Epub generator PHP",
   "keywords": [
     "php",
-    "epub3-php"
+    "epub-php"
   ],
-  "homepage": "https://github.com/prhost/epub3-php",
+  "homepage": "https://github.com/prhost/epub-php",
   "license": "MIT",
   "authors": [
     {
@@ -30,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Prhost\\Epub3\\": "src"
+      "Prhost\\Epub\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Prhost\\Epub3\\Tests\\": "tests"
+      "Prhost\\Epub\\Tests\\": "tests"
     }
   },
   "scripts": {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
 use DOMDocument;
-use Prhost\Epub3\Files\Cover;
-use Prhost\Epub3\Files\Css;
-use Prhost\Epub3\Files\Image;
-use Prhost\Epub3\Helpers\Str;
-use Prhost\Epub3\Traits\AssetTrait;
+use Prhost\Epub\Files\Cover;
+use Prhost\Epub\Files\Css;
+use Prhost\Epub\Files\Image;
+use Prhost\Epub\Helpers\Str;
+use Prhost\Epub\Traits\AssetTrait;
 
 class CoverMaker extends MakerAbstract
 {

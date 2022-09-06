@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
-use Prhost\Epub3\Elements\ManifestItem;
-use Prhost\Epub3\Elements\MetadataItem;
-use Prhost\Epub3\Elements\SpineItemRef;
-use Prhost\Epub3\Files\Package;
+use Prhost\Epub\Elements\ManifestItem;
+use Prhost\Epub\Elements\MetadataItem;
+use Prhost\Epub\Elements\SpineItemRef;
+use Prhost\Epub\Files\Package;
 use Ramsey\Uuid\Uuid;
 
 class PackageMaker extends MakerAbstract

@@ -1,9 +1,9 @@
 <?php
 
-namespace Prhost\Epub3\Traits;
+namespace Prhost\Epub\Traits;
 
-use Prhost\Epub3\Files\Css;
-use Prhost\Epub3\Files\File;
+use Prhost\Epub\Files\Css;
+use Prhost\Epub\Files\File;
 
 trait AssetTrait
 {

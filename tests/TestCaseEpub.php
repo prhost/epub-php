@@ -1,6 +1,6 @@
 <?php
 
-namespace Prhost\Epub3\Tests;
+namespace Prhost\Epub\Tests;
 
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;

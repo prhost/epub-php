@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3;
+namespace Prhost\Epub;
 
-use Prhost\Epub3\Elements\ManifestItem;
-use Prhost\Epub3\Files\Chapter;
-use Prhost\Epub3\Helpers\Str;
-use Prhost\Epub3\Makers\ChapterMaker;
-use Prhost\Epub3\Makers\ContainerMaker;
-use Prhost\Epub3\Makers\CoverMaker;
-use Prhost\Epub3\Makers\NavegationMaker;
-use Prhost\Epub3\Makers\PackageMaker;
+use Prhost\Epub\Elements\ManifestItem;
+use Prhost\Epub\Files\Chapter;
+use Prhost\Epub\Helpers\Str;
+use Prhost\Epub\Makers\ChapterMaker;
+use Prhost\Epub\Makers\ContainerMaker;
+use Prhost\Epub\Makers\CoverMaker;
+use Prhost\Epub\Makers\NavegationMaker;
+use Prhost\Epub\Makers\PackageMaker;
 
 class Epub
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
-use Prhost\Epub3\Files\File;
+use Prhost\Epub\Files\File;
 
 abstract class MakerAbstract
 {

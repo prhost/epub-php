@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3;
+namespace Prhost\Epub;
 
 use PhpZip\ZipFile;
-use Prhost\Epub3\Files\File;
-use Prhost\Epub3\Traits\Singleton;
+use Prhost\Epub\Files\File;
+use Prhost\Epub\Traits\Singleton;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 

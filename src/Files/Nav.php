@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Files;
+namespace Prhost\Epub\Files;
 
 class Nav extends File
 {

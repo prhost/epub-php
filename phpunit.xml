@@ -19,7 +19,7 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Epub3 Tests">
+        <testsuite name="Epub Tests">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

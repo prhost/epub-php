@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Elements;
+namespace Prhost\Epub\Elements;
 
-use Prhost\Epub3\Files\File;
+use Prhost\Epub\Files\File;
 
 class ManifestItem extends ElementItem
 {

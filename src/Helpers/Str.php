@@ -1,6 +1,6 @@
 <?php
 
-namespace Prhost\Epub3\Helpers;
+namespace Prhost\Epub\Helpers;
 
 class Str
 {

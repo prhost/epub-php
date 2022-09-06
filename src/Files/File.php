@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Files;
+namespace Prhost\Epub\Files;
 
-use Prhost\Epub3\FileManager;
+use Prhost\Epub\FileManager;
 
 abstract class File extends \SplFileInfo
 {

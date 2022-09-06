@@ -1,20 +1,20 @@
 <?php
 
-namespace Prhost\Epub3\Tests;
+namespace Prhost\Epub\Tests;
 
-use Prhost\Epub3\Elements\ManifestItem;
-use Prhost\Epub3\Epub;
-use Prhost\Epub3\FileManager;
-use Prhost\Epub3\Files\Css;
-use Prhost\Epub3\Files\File;
-use Prhost\Epub3\Files\Image;
-use Prhost\Epub3\Files\Package;
-use Prhost\Epub3\Helpers\Str;
-use Prhost\Epub3\Makers\ChapterMaker;
-use Prhost\Epub3\Makers\ContainerMaker;
-use Prhost\Epub3\Makers\CoverMaker;
-use Prhost\Epub3\Makers\NavegationMaker;
-use Prhost\Epub3\Makers\PackageMaker;
+use Prhost\Epub\Elements\ManifestItem;
+use Prhost\Epub\Epub;
+use Prhost\Epub\FileManager;
+use Prhost\Epub\Files\Css;
+use Prhost\Epub\Files\File;
+use Prhost\Epub\Files\Image;
+use Prhost\Epub\Files\Package;
+use Prhost\Epub\Helpers\Str;
+use Prhost\Epub\Makers\ChapterMaker;
+use Prhost\Epub\Makers\ContainerMaker;
+use Prhost\Epub\Makers\CoverMaker;
+use Prhost\Epub\Makers\NavegationMaker;
+use Prhost\Epub\Makers\PackageMaker;
 
 class ComponentsTest extends TestCaseEpub
 {

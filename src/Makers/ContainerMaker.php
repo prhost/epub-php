@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Makers;
+namespace Prhost\Epub\Makers;
 
-use Prhost\Epub3\Files\Container;
-use Prhost\Epub3\Files\Package;
+use Prhost\Epub\Files\Container;
+use Prhost\Epub\Files\Package;
 
 class ContainerMaker extends MakerAbstract
 {
