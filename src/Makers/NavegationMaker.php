@@ -36,7 +36,8 @@ class NavegationMaker extends MakerAbstract
 
     public function createMainMenu(string $filePath, string $title): Menu
     {
-        $this->appendMainMenu($menu = new Menu($filePath, $title));
+        $menu = new Menu($filePath, $title);
+        $this->appendMainMenu($menu);
 
         return $menu;
     }
@@ -46,29 +47,6 @@ class NavegationMaker extends MakerAbstract
         $this->menus[] = &$menu;
 
         return $this;
-    }
-
-    /**
-     * @param Menu[] $menus
-     * @param DOMElement $ol
-     * @param DOMDocument $document
-     * @return void
-     */
-    protected function makeNavsOl(array $menus, DOMElement $ol, DOMDocument $document)
-    {
-        foreach ($menus as $menu) {
-            $li = $document->createElement('li');
-            $a = $document->createElement('a');
-            $li->appendChild($a);
-            $a->setAttribute('href', $menu->getFilePath());
-            $a->nodeValue = $menu->getTitle();
-            $ol->appendChild($li);
-            if ($menu->hasSubmenus()) {
-                $ol = $document->createElement('ol');
-                $li->appendChild($ol);
-                $this->makeNavsOl($menu->getSubmenus(), $ol, $document);
-            }
-        }
     }
 
     public function makeContent(): string
@@ -100,13 +78,35 @@ class NavegationMaker extends MakerAbstract
         $nav->appendChild($document->createElement('h1', $this->title));
 
         if ($this->menus) {
-            $ol = $document->createElement('ol');
-            $nav->appendChild($ol);
-
-            $this->makeNavsOl($this->menus, $ol, $document);
+            $this->makeNavs($this->menus, $nav, $document);
         }
 
         return $document->saveXML();
+    }
+
+    /**
+     * @param Menu[] $menus
+     * @param DOMElement $parent
+     * @param DOMDocument $document
+     * @return void
+     */
+    protected function makeNavs(array $menus, DOMElement &$parent, DOMDocument $document)
+    {
+        $ol = $document->createElement('ol');
+        $parent->appendChild($ol);
+
+        foreach ($menus as $menu) {
+            $li = $document->createElement('li');
+            $a = $document->createElement('a');
+            $li->appendChild($a);
+            $a->setAttribute('href', $menu->getFilePath());
+            $a->nodeValue = $menu->getTitle();
+            $ol->appendChild($li);
+
+            if ($menu->hasSubmenus()) {
+                $this->makeNavs($menu->getSubmenus(), $li, $document);
+            }
+        }
     }
 
     public function makeFile(): Nav
