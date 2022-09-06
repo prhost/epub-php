@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Prhost\Epub3\Elements;
 
-use Prhost\Epub3\Elements\Files\File;
+use Prhost\Epub3\Files\File;
 
 class ManifestItem extends ElementItem
 {
@@ -16,15 +16,15 @@ class ManifestItem extends ElementItem
     {
         $attributes['id'] = $this->id = $id;
         $attributes['href'] = $this->href = $href;
-        $attributes['mediaType'] = $this->mediaType = $mediaType;
+        $attributes['media-type'] = $this->mediaType = $mediaType;
 
         parent::__construct('item', null, $attributes);
     }
 
-    public static function fromFile(File $file, string $relativePath): self
+    public static function fromFile(File $file, string|null $relativePath, string $mediaType): self
     {
         $id = uniqid();
-        return new self('id-' . $id, $file->getRelativeEpubPath($relativePath), mime_content_type($file->getRealPath()));
+        return new self('id-' . $id, $file->getRelativeEpubPath($relativePath), $mediaType ?: mime_content_type($file->getRealPath()));
     }
 
     /**

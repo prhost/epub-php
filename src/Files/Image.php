@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Elements\Files;
+namespace Prhost\Epub3\Files;
 
 class Image extends File
 {

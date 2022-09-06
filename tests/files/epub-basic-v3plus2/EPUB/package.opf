@@ -26,3 +26,22 @@
     <itemref idref="section0002.xhtml" />
   </spine>
 </package>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:identifier id="pub-id">urn:uuid:ea7c76fd-c36c-4d83-a79c-623d1c4ff462</dc:identifier>
+    <dc:title>Simple Epub Test</dc:title>
+    <meta name="cover" contet="cover.xhtml"/>
+  </metadata>
+  <manifest/>
+  <item id="id-6316d599711d2" href="xhtml/cover.xhtml" mediaType="text/xml"/>
+  <item id="id-6316d59971b7a" href="xhtml/chapter1.xhtml" mediaType="text/xml"/>
+  <item id="id-6316d599726ab" href="xhtml/chapter2.xhtml" mediaType="text/xml"/>
+  <item id="id-6316d59972b8a" href="xhtml/nav.xhtml" mediaType="text/xml"/>
+  <spine toc="ncx"/>
+  <itemref idref="id-6316d59971b7a"/>
+  <itemref idref="id-6316d599726ab"/>
+</package>
+

@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Prhost\Epub3\Elements;
+namespace Prhost\Epub3\Makers;
 
-use Prhost\Epub3\Epub;
+use Prhost\Epub3\Elements\ManifestItem;
+use Prhost\Epub3\Elements\MetadataItem;
+use Prhost\Epub3\Elements\SpineItemRef;
+use Prhost\Epub3\Files\Package;
 use Ramsey\Uuid\Uuid;
 
-class PackageMaker
+class PackageMaker extends MakerAbstract
 {
     public const UNIQUE_IDENTIFIER = 'pub-id';
+
+    protected const FILENAME = 'package.opf';
 
     /**
      * @var ManifestItem[]
@@ -31,15 +36,13 @@ class PackageMaker
      */
     protected $identifier;
 
-    /**
-     * @var Epub
-     */
-    protected Epub $epub;
+    protected string $basePath;
 
-    public function __construct(Epub $epub, string $identifier = null)
+    public function __construct(string $title, string $identifier = null, string $basePath = '')
     {
-        $this->epub = $epub;
+        $this->title = $title;
         $this->identifier = $identifier ?: $this->generateIdentifier();
+        $this->basePath = $basePath;
     }
 
     protected function generateIdentifier(): string
@@ -83,7 +86,7 @@ class PackageMaker
         return $this;
     }
 
-    public function generateXml(): string
+    public function makeContent(): string
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
 
@@ -93,19 +96,20 @@ class PackageMaker
         $package->setAttribute('xmlns', 'http://www.idpf.org/2007/opf');
         $package->setAttribute('version', '3.0');
         $package->setAttribute('unique-identifier', self::UNIQUE_IDENTIFIER);
-        $package->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
 
         $metadata = $document->createElement('metadata');
+        $metadata->setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
+
         $package->appendChild($metadata);
 
         $identifier = $document->createElement('dc:identifier', 'urn:uuid:' . $this->identifier);
         $identifier->setAttribute('id', self::UNIQUE_IDENTIFIER);
         $metadata->appendChild($identifier);
 
-        $metadata->appendChild($document->createElement('dc:title', $this->epub->getTitle()));
+        $metadata->appendChild($document->createElement('dc:title', $this->title));
 
         foreach ($this->metadataItems as $metadataItem) {
-            $package->appendChild($metadataItem->make($document));
+            $metadata->appendChild($metadataItem->make($document));
         }
 
         $manifest = $document->createElement('manifest');
@@ -124,5 +128,10 @@ class PackageMaker
         }
 
         return $document->saveXML();
+    }
+
+    public function makeFile(): Package
+    {
+        return Package::makeFromContent(self::FILENAME, $this->makeContent(), $this->basePath);
     }
 }

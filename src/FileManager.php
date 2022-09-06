@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Prhost\Epub3;
 
-use Prhost\Epub3\Elements\Files\File;
+use PhpZip\ZipFile;
+use Prhost\Epub3\Files\File;
 use Prhost\Epub3\Traits\Singleton;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
@@ -48,9 +49,37 @@ class FileManager
     {
         $pathFile = self::realPath($fileName, $subPath);
         self::getFileystem()->mkdir(dirname($pathFile));
-        self::getFileystem()->appendToFile($pathFile, $content);
+        self::getFileystem()->dumpFile($pathFile, $content);
 
         return $pathFile;
+    }
+
+    public function compressAllTo(string $filename, string $path): void
+    {
+        $zipFile = new ZipFile();
+
+        $filePath = $path . DIRECTORY_SEPARATOR . rtrim($filename, '.epub') . '.epub';
+
+        try {
+            $zipFile
+                ->addDir($this->realPath('/'))
+                ->saveAsFile($filePath)
+                ->close();
+        } catch (\PhpZip\Exception\ZipException $e) {
+            throw new $e();
+        } finally {
+            $zipFile->close();
+        }
+    }
+
+    /**
+     * Copy all files and paths to other path
+     * @param string $path
+     * @return void
+     */
+    public function copyAllTo(string $path): void
+    {
+        self::getFileystem()->mirror($this->realPath(), $path);
     }
 
     public function copyToEpub(string $filePath, string $epubSubPath = null): string
@@ -74,7 +103,7 @@ class FileManager
         return $file ? ($epubPath . DIRECTORY_SEPARATOR . $file) : $epubPath;
     }
 
-    public function relativePath(File $file, string $relativePath): string
+    public function relativePath(File $file, string $relativePath = null): string
     {
         $path = rtrim(self::getFileystem()->makePathRelative($file->getPath(), $this->realPath(null, $relativePath)), DIRECTORY_SEPARATOR);
 
