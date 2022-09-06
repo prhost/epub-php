@@ -20,6 +20,7 @@ trait AssetTrait
     public function addCss(Css $css, string $relativePath = null): self
     {
         $this->appendCss($css, $relativePath);
+
         return $this;
     }
 
@@ -34,11 +35,11 @@ trait AssetTrait
     public function appendLink(File $file, string $rel = null, string $type = null, array $attributes = [], string $relativePath = null): self
     {
         $this->links[$file->getRealPath()] = [
-            'rel'          => $rel,
-            'type'         => $type,
-            'attributes'   => $attributes,
-            'file'         => $file,
-            'relativePath' => $relativePath
+            'rel' => $rel,
+            'type' => $type,
+            'attributes' => $attributes,
+            'file' => $file,
+            'relativePath' => $relativePath,
         ];
 
         return $this;
@@ -47,6 +48,7 @@ trait AssetTrait
     public function appendCss(Css $css, string $relativePath = null): self
     {
         $this->appendLink($css, 'stylesheet', 'text/css', [], $relativePath);
+
         return $this;
     }
 
