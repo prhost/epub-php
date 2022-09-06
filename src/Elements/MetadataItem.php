@@ -6,5 +6,4 @@ namespace Prhost\Epub3\Elements;
 
 class MetadataItem extends ElementItem
 {
-
 }
