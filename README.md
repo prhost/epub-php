@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/prhost/epub-php.svg?style=flat-square)](https://packagist.org/packages/prhost/epub-php)
 
 ---
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
+Just a package to facilitate Epub generation. I didn't find any good.
 
 ## Installation
 
