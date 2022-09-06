@@ -124,7 +124,7 @@ class Epub
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name'   => 'cover',
+                'name' => 'cover',
                 'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
