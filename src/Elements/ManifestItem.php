@@ -24,6 +24,7 @@ class ManifestItem extends ElementItem
     public static function fromFile(File $file, string|null $relativePath, string $mediaType): self
     {
         $id = uniqid();
+
         return new self('id-' . $id, $file->getRelativeEpubPath($relativePath), $mediaType ?: mime_content_type($file->getRealPath()));
     }
 
