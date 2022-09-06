@@ -2,7 +2,6 @@
 # [Working in progress] Epub Generator
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/prhost/epub-php.svg?style=flat-square)](https://packagist.org/packages/prhost/epub-php)
-[![Tests](https://github.com/prhost/epub-php/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/prhost/epub-php/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/prhost/epub-php.svg?style=flat-square)](https://packagist.org/packages/prhost/epub-php)
 
 ---
@@ -19,13 +18,17 @@ composer require prhost/epub-php
 ## Usage
 
 ```php
-$epub = new Prhost\Epub\Epub();
+$epub = new Prhost\Epub\Epub('Title Epub');
 ```
 
 ## Testing
 
 ```bash
 composer test
+```
+or
+```bash
+php vendor/bin/phpunit
 ```
 
 ## Credits
