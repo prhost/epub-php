@@ -20,7 +20,7 @@
     "ext-simplexml": "*",
     "ext-zip": "*",
     "nelexa/zip": "^4.0",
-    "ramsey/uuid": "^4.4",
+    "ramsey/uuid": "^4.4|^3.9",
     "symfony/filesystem": "^6.0"
   },
   "require-dev": {
