@@ -86,7 +86,7 @@ class ComponentsTest extends TestCaseEpub
         $coverMaker = new CoverMaker('Test Title', 'cover.xhtml', 'EPUB/xhtml');
         $coverMaker
             ->setImage(new Image($this->getFilePath('covers/sample-cover.jpg'), 'EPUB/images'))
-            ->appendCss(new Css($this->getFilePath('epub-basic-v3plus2/EPUB/css/cover.css'), 'EPUB/css'), 'EPUB/covers');
+            ->appendCss(new Css($this->getFilePath('epub-basic-v3plus2/EPUB/css/cover.css'), 'EPUB/css'));
 
         $xhtml = $coverMaker->makeContent();
         $this->assertXmlStringEqualsXmlString($this->coverXhtmlContent, $xhtml);

@@ -14,7 +14,7 @@ class NavegationMaker extends MakerAbstract
 {
     use AssetTrait;
 
-    protected const FILENAME_DEFAULT = 'nav.xhtml';
+    protected const DEFAULT_EPUB_FILENAME = 'nav.xhtml';
 
     /**
      * @var Menu[]
@@ -31,7 +31,7 @@ class NavegationMaker extends MakerAbstract
     {
         $this->title = $title;
         $this->basePath = $basePath;
-        $this->filename = $filename ?: self::FILENAME_DEFAULT;
+        $this->filename = $filename ?: self::DEFAULT_EPUB_FILENAME;
     }
 
     public function createMainMenu(string $filePath, string $title): Menu

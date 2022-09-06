@@ -20,13 +20,13 @@ class EpubTest extends TestCaseEpub
         FileManager::getInstance()->setRootDirName($dirName);
 
         $epub->cover()
-            ->setImage($this->getFilePath('covers/sample-cover.jpg'), 'EPUB/images')
-            ->appendCss(new Css($this->getFilePath('epub-basic-v3plus2/EPUB/css/cover.css'), 'EPUB/css'), 'EPUB/xhtml');
+            ->setImage($this->getFilePath('covers/sample-cover.jpg'))
+            ->appendCss(new Css($this->getFilePath('epub-basic-v3plus2/EPUB/css/cover.css')));
 
         $epub
-            ->addChapter('Chapter 1', $this->getFileContent('contents-sample/body1.html'), 'chapter1.xhtml', 'EPUB/xhtml')
-            ->addChapter('Chapter 2', $this->getFileContent('contents-sample/body2.html'), 'chapter2.xhtml', 'EPUB/xhtml')
-            ->nav('EPUB/xhtml')
+            ->addChapter('Chapter 1', $this->getFileContent('contents-sample/body1.html'), 'chapter1.xhtml')
+            ->addChapter('Chapter 2', $this->getFileContent('contents-sample/body2.html'), 'chapter2.xhtml')
+            ->nav()
             ->appendMainMenu(new Menu('xhtml/chapter1.xhtml', 'Chapter 1'))
             ->appendMainMenu(new Menu('xhtml/chapter2.xhtml', 'Chapter 2'));
 

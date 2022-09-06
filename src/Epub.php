@@ -44,7 +44,7 @@ class Epub
         $this->title = $title;
     }
 
-    public function nav(string $basePath = null, string $filename = null): NavegationMaker
+    public function nav(string $basePath = 'EPUB/xhtml', string $filename = null): NavegationMaker
     {
         if (null === $this->navegation) {
             $this->navegation = new NavegationMaker($this->getTitle(), $filename, $basePath);
@@ -67,7 +67,7 @@ class Epub
         return $this->coverMaker;
     }
 
-    public function addChapter(string $title, string $content = null, string $filename = null, string $basePath = null): self
+    public function addChapter(string $title, string $content = null, string $filename = null, string $basePath = 'EPUB/xhtml'): self
     {
         $chapter = new ChapterMaker($title, $content, $filename, $basePath);
         $this->appendChapter($chapter);
@@ -101,18 +101,31 @@ class Epub
         if (null === $this->packageMaker) {
             $this->packageMaker = new PackageMaker($this->getTitle(), null, 'EPUB');
 
+            $this->packageMaker->createMetadataItem('dc:language', 'en');
+            $this->packageMaker->createMetadataItem('meta', '2011-01-01T12:00:00Z', ['property' => 'dcterms:modified']);
+
             $coverFile = $this->coverMaker->makeFile();
 
             $this->packageMaker->appendManifestItem(
                 ManifestItem::fromFile(
                     $coverFile,
-                    'EPUB'
+                    'EPUB',
+                    'application/xhtml+xml'
+                )
+            );
+
+            $this->packageMaker->appendManifestItem(
+                ManifestItem::fromFile(
+                    $this->coverMaker->getImage(),
+                    'EPUB',
+                    null,
+                    ['properties' => "cover-image"]
                 )
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name' => 'cover',
-                'contet' => $coverFile->getFilename(),
+                'name'   => 'cover',
+                'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
             foreach ($this->chaptersFiles as $chapterFile) {
@@ -121,7 +134,7 @@ class Epub
                 $this->packageMaker->createSpineItemRef($manifestItem->getId());
             }
 
-            $manifestItem = ManifestItem::fromFile($this->navegation->makeFile(), 'EPUB', 'application/xhtml+xml');
+            $manifestItem = ManifestItem::fromFile($this->navegation->makeFile(), 'EPUB', 'application/xhtml+xml', ['properties' => 'nav']);
             $this->packageMaker->appendManifestItem($manifestItem);
         }
 

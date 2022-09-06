@@ -21,10 +21,10 @@ class ManifestItem extends ElementItem
         parent::__construct('item', null, $attributes);
     }
 
-    public static function fromFile(File $file, string|null $relativePath, string $mediaType): self
+    public static function fromFile(File $file, string|null $relativePath, string $mediaType = null, array $attributes = []): self
     {
         $id = uniqid();
-        return new self('id-' . $id, $file->getRelativeEpubPath($relativePath), $mediaType ?: mime_content_type($file->getRealPath()));
+        return new self('id-' . $id, $file->getRelativeEpubPath($relativePath), $mediaType ?: mime_content_type($file->getRealPath()), $attributes);
     }
 
     /**

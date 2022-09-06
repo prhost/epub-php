@@ -122,15 +122,15 @@ class PackageMaker extends MakerAbstract
         $package->appendChild($manifest);
 
         foreach ($this->manifestItems as $manifestItem) {
-            $package->appendChild($manifestItem->make($document));
+            $manifest->appendChild($manifestItem->make($document));
         }
 
         $spine = $document->createElement('spine');
-        $spine->setAttribute('toc', 'ncx');
+//        $spine->setAttribute('toc', 'ncx');
         $package->appendChild($spine);
 
         foreach ($this->spineItems as $spineItem) {
-            $package->appendChild($spineItem->make($document));
+            $spine->appendChild($spineItem->make($document));
         }
 
         return $document->saveXML();

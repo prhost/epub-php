@@ -6,13 +6,16 @@ namespace Prhost\Epub3\Makers;
 
 use DOMDocument;
 use Prhost\Epub3\Files\Cover;
+use Prhost\Epub3\Files\Css;
 use Prhost\Epub3\Files\Image;
 use Prhost\Epub3\Helpers\Str;
 use Prhost\Epub3\Traits\AssetTrait;
 
 class CoverMaker extends MakerAbstract
 {
-    use AssetTrait;
+    use AssetTrait {
+        appendCss as appendCssTrait;
+    }
 
     /**
      * @var Image
@@ -32,7 +35,12 @@ class CoverMaker extends MakerAbstract
         $this->filename = $filename ? rtrim($filename, '.xhtml') . '.xhtml' : Str::slugify($title) . '.xhtml';
     }
 
-    public function setImage(string|Image $image, string $epubSubPath = null): self
+    public function appendCss(Css $css): self
+    {
+        return $this->appendCssTrait($css, $this->basePath);
+    }
+
+    public function setImage(string|Image $image, string $epubSubPath = 'EPUB/images'): self
     {
         if ($image instanceof Image) {
             $this->image = $image;
@@ -78,5 +86,13 @@ class CoverMaker extends MakerAbstract
     public function makeFile(): Cover
     {
         return Cover::makeFromContent($this->filename, $this->makeContent(), $this->basePath);
+    }
+
+    /**
+     * @return Image
+     */
+    public function getImage(): Image
+    {
+        return $this->image;
     }
 }

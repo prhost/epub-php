@@ -62,7 +62,7 @@ class FileManager
 
         try {
             $zipFile
-                ->addDir($this->realPath('/'))
+                ->addDirRecursive($this->realPath('/'))
                 ->saveAsFile($filePath)
                 ->close();
         } catch (\PhpZip\Exception\ZipException $e) {
