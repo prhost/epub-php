@@ -163,21 +163,22 @@ class Epub
      * @param string $path
      * @return void
      */
-    public function saveRaw(string $path): void
+    public function saveRaw(string $path): string
     {
         $this->generateEpub();
-        FileManager::getInstance()->copyAllTo($path);
+        return FileManager::getInstance()->copyAllTo($path);
     }
 
-    public function save(string $path, string $filename = null): void
+    public function save(string $path, string $filename = null): string
     {
         $this->generateEpub();
-        $filename = $filename ?: Str::slugify($this->getTitle()) . '.epub';
-        FileManager::getInstance()->compressAllTo($filename, $path);
+        return FileManager::getInstance()->compressAllTo($this->getFilename($filename), $path);
     }
 
-    public function download()
+    public function download(string $filename = null)
     {
+        $this->generateEpub();
+        return FileManager::getInstance()->download($this->getFilename($filename));
     }
 
     /**
@@ -194,5 +195,10 @@ class Epub
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+    
+    protected function getFilename(string $filename = null): string
+    {
+        return $filename ?: Str::slugify($this->getTitle()) . '.epub';
     }
 }
