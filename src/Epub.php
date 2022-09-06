@@ -19,6 +19,10 @@ class Epub
 
     protected string $title;
 
+    protected string $language;
+
+    protected \DateTime $dcTermsModified;
+
     /**
      * @var NavegationMaker
      */
@@ -39,9 +43,11 @@ class Epub
      */
     protected array $chaptersFiles = [];
 
-    public function __construct(string $title)
+    public function __construct(string $title, string $language = 'en', \DateTime $dcTermsModified = null)
     {
         $this->title = $title;
+        $this->language = $language;
+        $this->dcTermsModified = $dcTermsModified ?: new \DateTime('now');
     }
 
     public function nav(string $basePath = 'EPUB/xhtml', string $filename = null): NavegationMaker
@@ -101,8 +107,8 @@ class Epub
         if (null === $this->packageMaker) {
             $this->packageMaker = new PackageMaker($this->getTitle(), null, 'EPUB');
 
-            $this->packageMaker->createMetadataItem('dc:language', 'en');
-            $this->packageMaker->createMetadataItem('meta', '2011-01-01T12:00:00Z', ['property' => 'dcterms:modified']);
+            $this->packageMaker->createMetadataItem('dc:language', $this->language);
+            $this->packageMaker->createMetadataItem('meta', $this->dcTermsModified->format('Y-m-d\TH:i:sp'), ['property' => 'dcterms:modified']);
 
             $coverFile = $this->coverMaker->makeFile();
 
