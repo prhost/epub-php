@@ -54,7 +54,22 @@ class FileManager
         return $pathFile;
     }
 
-    public function compressAllTo(string $filename, string $path): void
+    public function download(string $filename): void
+    {
+        $zipFile = new ZipFile();
+        
+        try {
+            $zipFile
+                ->addDirRecursive($this->realPath('/'))
+                ->outputAsAttachment($filename);
+        } catch (\PhpZip\Exception\ZipException $e) {
+            throw new $e();
+        } finally {
+            $zipFile->close();
+        }
+    }
+
+    public function compressAllTo(string $filename, string $path): string
     {
         $zipFile = new ZipFile();
 
@@ -70,6 +85,8 @@ class FileManager
         } finally {
             $zipFile->close();
         }
+
+        return $filePath;
     }
 
     /**
@@ -77,9 +94,10 @@ class FileManager
      * @param string $path
      * @return void
      */
-    public function copyAllTo(string $path): void
+    public function copyAllTo(string $path): string
     {
         self::getFileystem()->mirror($this->realPath(), $path);
+        return $path;
     }
 
     public function copyToEpub(string $filePath, string $epubSubPath = null): string
