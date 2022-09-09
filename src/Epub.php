@@ -158,7 +158,7 @@ class Epub
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name'   => 'cover',
+                'name' => 'cover',
                 'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
@@ -194,12 +194,14 @@ class Epub
     public function saveRaw(string $path): string
     {
         $this->generateEpub();
+
         return FileManager::getInstance()->copyAllTo($path);
     }
 
     public function save(string $path, string $filename = null): string
     {
         $this->generateEpub();
+
         return FileManager::getInstance()->compressAllTo($this->getFilename($filename), $path);
     }
 
@@ -244,6 +246,7 @@ class Epub
     public function setLanguage(string $language): self
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -261,6 +264,7 @@ class Epub
     public function setDcTermsModified(\DateTime $dcTermsModified): self
     {
         $this->dcTermsModified = $dcTermsModified;
+
         return $this;
     }
 
@@ -278,6 +282,7 @@ class Epub
     public function setCreator(string $creator): self
     {
         $this->creator = $creator;
+
         return $this;
     }
 
@@ -295,6 +300,7 @@ class Epub
     public function setRights(string $rights): self
     {
         $this->rights = $rights;
+
         return $this;
     }
 
@@ -312,6 +318,7 @@ class Epub
     public function setPublisher(string $publisher): self
     {
         $this->publisher = $publisher;
+
         return $this;
     }
 }
