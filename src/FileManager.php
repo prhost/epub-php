@@ -73,6 +73,8 @@ class FileManager
     {
         $zipFile = new ZipFile();
 
+        self::getFileystem()->mkdir($path);
+
         $filePath = $path . DIRECTORY_SEPARATOR . rtrim($filename, '.epub') . '.epub';
 
         try {
