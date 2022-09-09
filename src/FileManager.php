@@ -57,7 +57,7 @@ class FileManager
     public function download(string $filename): void
     {
         $zipFile = new ZipFile();
-        
+
         try {
             $zipFile
                 ->addDirRecursive($this->realPath('/'))
@@ -97,6 +97,7 @@ class FileManager
     public function copyAllTo(string $path): string
     {
         self::getFileystem()->mirror($this->realPath(), $path);
+
         return $path;
     }
 

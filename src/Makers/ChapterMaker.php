@@ -76,9 +76,9 @@ class ChapterMaker extends MakerAbstract
 
         $bodyContent = $document->createDocumentFragment();
 
-        $cntentDom = new \DOMDocument;
+        $cntentDom = new \DOMDocument();
         $cntentDom->loadHtml($this->getContent());
-        $bodyContent->appendChild($document->importNode($cntentDom->documentElement, TRUE));
+        $bodyContent->appendChild($document->importNode($cntentDom->documentElement, true));
 
         $body->appendChild($bodyContent);
 
