@@ -19,9 +19,9 @@ class Epub
 
     protected string $title;
 
-    protected string $language;
+    protected string $language = 'en';
 
-    protected \DateTime $dcTermsModified;
+    protected $dcTermsModified;
 
     /**
      * @var NavegationMaker
@@ -43,11 +43,27 @@ class Epub
      */
     protected array $chaptersFiles = [];
 
-    public function __construct(string $title, string $language = 'en', \DateTime $dcTermsModified = null)
+    /**
+     * The book's creator
+     * @var string
+     */
+    protected string $creator = '';
+
+    /**
+     * The book's rights
+     * @var string
+     */
+    protected string $rights = '';
+
+    /**
+     * This is the book's publisher
+     * @var string
+     */
+    protected string $publisher = '';
+
+    public function __construct(string $title)
     {
         $this->title = $title;
-        $this->language = $language;
-        $this->dcTermsModified = $dcTermsModified ?: new \DateTime('now');
     }
 
     public function nav(string $basePath = 'EPUB/xhtml', string $filename = null): NavegationMaker
@@ -102,13 +118,28 @@ class Epub
         $this->generateContainer();
     }
 
-    protected function getPackageMaker(): PackageMaker
+    public function getPackage(): PackageMaker
     {
         if (null === $this->packageMaker) {
             $this->packageMaker = new PackageMaker($this->getTitle(), null, 'EPUB');
 
             $this->packageMaker->createMetadataItem('dc:language', $this->language);
-            $this->packageMaker->createMetadataItem('meta', $this->dcTermsModified->format('Y-m-d\TH:i:sp'), ['property' => 'dcterms:modified']);
+            $this->packageMaker->createMetadataItem('meta', $this->getDcTermsModified()->format('Y-m-d\TH:i:sp'), ['property' => 'dcterms:modified']);
+
+            if ($this->getCreator()) {
+                $this->packageMaker->createMetadataItem('dc:creator', $this->getCreator(), [
+                    'opf:file-as' => $this->getCreator(),
+                    'opf:role'    => "aut",
+                ]);
+            }
+
+            if ($this->getPublisher()) {
+                $this->packageMaker->createMetadataItem('dc:publisher', $this->getPublisher());
+            }
+
+            if ($this->getRights()) {
+                $this->packageMaker->createMetadataItem('dc:rights', $this->getRights());
+            }
 
             $coverFile = $this->coverMaker->makeFile();
 
@@ -130,7 +161,7 @@ class Epub
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name' => 'cover',
+                'name'   => 'cover',
                 'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
@@ -140,7 +171,7 @@ class Epub
                 $this->packageMaker->createSpineItemRef($manifestItem->getId());
             }
 
-            $manifestItem = ManifestItem::fromFile($this->navegation->makeFile(), 'EPUB', 'application/xhtml+xml', ['properties' => 'nav']);
+            $manifestItem = ManifestItem::fromFile($this->nav()->makeFile(), 'EPUB', 'application/xhtml+xml', ['properties' => 'nav']);
             $this->packageMaker->appendManifestItem($manifestItem);
         }
 
@@ -149,7 +180,7 @@ class Epub
 
     protected function generateContainer(): void
     {
-        $container = new ContainerMaker($this->getPackageMaker()->makeFile());
+        $container = new ContainerMaker($this->getPackage()->makeFile());
         $container->makeFile();
     }
 
@@ -175,10 +206,10 @@ class Epub
         return FileManager::getInstance()->compressAllTo($this->getFilename($filename), $path);
     }
 
-    public function download(string $filename = null)
+    public function download(string $filename = null): void
     {
         $this->generateEpub();
-        return FileManager::getInstance()->download($this->getFilename($filename));
+        FileManager::getInstance()->download($this->getFilename($filename));
     }
 
     /**
@@ -196,9 +227,94 @@ class Epub
     {
         $this->title = $title;
     }
-    
+
     protected function getFilename(string $filename = null): string
     {
         return $filename ?: Str::slugify($this->getTitle()) . '.epub';
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $language
+     */
+    public function setLanguage(string $language): self
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDcTermsModified(): \DateTime
+    {
+        return $this->dcTermsModified ?: new \DateTime('now');
+    }
+
+    /**
+     * @param \DateTime $dcTermsModified
+     */
+    public function setDcTermsModified(\DateTime $dcTermsModified): self
+    {
+        $this->dcTermsModified = $dcTermsModified;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreator(): string
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @param string $creator
+     */
+    public function setCreator(string $creator): self
+    {
+        $this->creator = $creator;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRights(): string
+    {
+        return $this->rights;
+    }
+
+    /**
+     * @param string $rights
+     */
+    public function setRights(string $rights): self
+    {
+        $this->rights = $rights;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublisher(): string
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @param string $publisher
+     */
+    public function setPublisher(string $publisher): self
+    {
+        $this->publisher = $publisher;
+        return $this;
     }
 }
