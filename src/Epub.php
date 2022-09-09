@@ -89,15 +89,15 @@ class Epub
         return $this->coverMaker;
     }
 
-    public function addChapter(string $title, string $content = null, string $filename = null, string $basePath = 'EPUB/xhtml'): self
+    public function addChapter(string $title, string $content = null, string $filename = null, string $basePath = 'EPUB/xhtml'): ChapterMaker
     {
         $chapter = new ChapterMaker($title, $content, $filename, $basePath);
         $this->appendChapter($chapter);
 
-        return $this;
+        return $chapter;
     }
 
-    public function appendChapter(ChapterMaker $chapterMaker): self
+    public function appendChapter(ChapterMaker &$chapterMaker): self
     {
         $this->chaptersFiles[] = $chapterMaker->makeFile();
 
@@ -127,10 +127,7 @@ class Epub
             $this->packageMaker->createMetadataItem('meta', $this->getDcTermsModified()->format('Y-m-d\TH:i:sp'), ['property' => 'dcterms:modified']);
 
             if ($this->getCreator()) {
-                $this->packageMaker->createMetadataItem('dc:creator', $this->getCreator(), [
-                    'opf:file-as' => $this->getCreator(),
-                    'opf:role'    => "aut",
-                ]);
+                $this->packageMaker->createMetadataItem('dc:creator', $this->getCreator());
             }
 
             if ($this->getPublisher()) {
