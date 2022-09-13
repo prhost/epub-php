@@ -76,7 +76,11 @@ class ChapterMaker extends MakerAbstract
 
         $contentTemplate = new \DOMDocument();
         $contentTemplate->loadHTML($this->getContent());
-        $body->appendChild($document->importNode($contentTemplate->documentElement, true));
+
+        foreach ($contentTemplate->getElementsByTagName('body')->item(0)->childNodes as $node) {
+            $node = $document->importNode($node, true);
+            $body->appendChild($node);
+        }
 
         return $document->saveXML();
     }
