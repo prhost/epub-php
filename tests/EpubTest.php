@@ -25,7 +25,7 @@ class EpubTest extends TestCaseEpub
 
         $epub->addChapter('Chapter 1', $this->getFileContent('contents-sample/body1.html'), 'chapter1.xhtml');
         $epub->addChapter('Chapter 2', $this->getFileContent('contents-sample/body2.html'), 'chapter2.xhtml');
-        
+
         $epub->nav()
             ->appendMainMenu(new Menu('xhtml/chapter1.xhtml', 'Chapter 1'))
             ->appendMainMenu(new Menu('xhtml/chapter2.xhtml', 'Chapter 2'));

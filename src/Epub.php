@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prhost\Epub;
 
 use Prhost\Epub\Elements\ManifestItem;
-use Prhost\Epub\Files\Chapter;
 use Prhost\Epub\Helpers\Str;
 use Prhost\Epub\Makers\ChapterMaker;
 use Prhost\Epub\Makers\ContainerMaker;
@@ -165,7 +164,7 @@ class Epub
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name'   => 'cover',
+                'name' => 'cover',
                 'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
