@@ -12,9 +12,12 @@ use Prhost\Epub\Makers\ContainerMaker;
 use Prhost\Epub\Makers\CoverMaker;
 use Prhost\Epub\Makers\NavegationMaker;
 use Prhost\Epub\Makers\PackageMaker;
+use Prhost\Epub\Traits\AssetTrait;
 
 class Epub
 {
+    use AssetTrait;
+
     protected const MIME_TYPE = 'application/epub+zip';
 
     protected string $title;
@@ -39,9 +42,9 @@ class Epub
     protected $packageMaker;
 
     /**
-     * @var Chapter[]
+     * @var ChapterMaker[]
      */
-    protected array $chaptersFiles = [];
+    protected array $chapters = [];
 
     /**
      * The book's creator
@@ -99,17 +102,17 @@ class Epub
 
     public function appendChapter(ChapterMaker &$chapterMaker): self
     {
-        $this->chaptersFiles[] = $chapterMaker->makeFile();
+        $this->chapters[] = $chapterMaker;
 
         return $this;
     }
 
     /**
-     * @return Chapter[]
+     * @return ChapterMaker[]
      */
-    public function getChaptersFiles(): array
+    public function getChapters(): array
     {
-        return $this->chaptersFiles;
+        return $this->chapters;
     }
 
     protected function generateEpub(): void
@@ -148,24 +151,36 @@ class Epub
                 )
             );
 
+            if ($this->coverMaker->hasLinks()) {
+                $this->appendLinksManifest($this->coverMaker->getLinks());
+            }
+
             $this->packageMaker->appendManifestItem(
                 ManifestItem::fromFile(
                     $this->coverMaker->getImage(),
                     'EPUB',
-                    null,
+                    'image/jpeg',
                     ['properties' => "cover-image"]
                 )
             );
 
             $this->packageMaker->createMetadataItem('meta', null, [
-                'name' => 'cover',
+                'name'   => 'cover',
                 'contet' => $this->coverMaker->getImage()->getFilename(),
             ]);
 
-            foreach ($this->chaptersFiles as $chapterFile) {
-                $manifestItem = ManifestItem::fromFile($chapterFile, 'EPUB', 'application/xhtml+xml');
+            foreach ($this->getChapters() as $chapter) {
+                $manifestItem = ManifestItem::fromFile($chapter->makeFile(), 'EPUB', 'application/xhtml+xml');
                 $this->packageMaker->appendManifestItem($manifestItem);
                 $this->packageMaker->createSpineItemRef($manifestItem->getId());
+
+                if ($chapter->hasLinks()) {
+                    $this->appendLinksManifest($chapter->getLinks());
+                }
+            }
+
+            if ($this->hasLinks()) {
+                $this->appendLinksManifest($this->getLinks());
             }
 
             $manifestItem = ManifestItem::fromFile($this->nav()->makeFile(), 'EPUB', 'application/xhtml+xml', ['properties' => 'nav']);
@@ -320,5 +335,18 @@ class Epub
         $this->publisher = $publisher;
 
         return $this;
+    }
+
+    protected function appendLinksManifest(array $links): void
+    {
+        foreach ($links as $link) {
+            $this->packageMaker->appendManifestItem(
+                ManifestItem::fromFile(
+                    $link['file'],
+                    'EPUB',
+                    $link['type']
+                )
+            );
+        }
     }
 }

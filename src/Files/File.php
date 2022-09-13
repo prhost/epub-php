@@ -24,7 +24,7 @@ abstract class File extends \SplFileInfo
         $this->epubSubPath = $epubSubPath;
     }
 
-    public static function makeFromContent(string $filename, string $content = null, string $epubSubPath = null): static
+    public static function makeFromContent(string $filename, string $content = null, string $epubSubPath = 'EPUB/css'): static
     {
         $filePath = FileManager::getInstance()->saveFile($filename, $content, $epubSubPath);
         $file = new static($filePath, $epubSubPath);

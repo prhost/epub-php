@@ -136,6 +136,6 @@ class ComponentsTest extends TestCaseEpub
             ->appendChapter($chapter2)
             ->appendChapter($chapter3);
 
-        $this->assertCount(3, $epub->getChaptersFiles());
+        $this->assertCount(3, $epub->getChapters());
     }
 }

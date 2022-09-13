@@ -126,7 +126,6 @@ class PackageMaker extends MakerAbstract
         }
 
         $spine = $document->createElement('spine');
-//        $spine->setAttribute('toc', 'ncx');
         $package->appendChild($spine);
 
         foreach ($this->spineItems as $spineItem) {

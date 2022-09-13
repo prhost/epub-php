@@ -35,10 +35,10 @@ trait AssetTrait
     public function appendLink(File $file, string $rel = null, string $type = null, array $attributes = [], string $relativePath = null): self
     {
         $this->links[$file->getRealPath()] = [
-            'rel' => $rel,
-            'type' => $type,
-            'attributes' => $attributes,
-            'file' => $file,
+            'rel'          => $rel,
+            'type'         => $type,
+            'attributes'   => $attributes,
+            'file'         => $file,
             'relativePath' => $relativePath,
         ];
 
@@ -83,5 +83,21 @@ trait AssetTrait
     protected function makeCss(Css $cssFile, \DOMDocument $document, string $relativePath = null): \DOMElement
     {
         return $this->makeLink($cssFile, $document, 'stylesheet', 'text/css', [], $relativePath);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLinks(): bool
+    {
+        return count($this->links) > 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLinks(): array
+    {
+        return $this->links;
     }
 }

@@ -75,7 +75,11 @@ class FileManager
 
         self::getFileystem()->mkdir($path);
 
-        $filePath = $path . DIRECTORY_SEPARATOR . rtrim($filename, '.epub') . '.epub';
+        if (strtolower(substr($filename, -4)) !== 'epub') {
+            $filename .= '.epub';
+        }
+
+        $filePath = $path . DIRECTORY_SEPARATOR . $filename;
 
         try {
             $zipFile
